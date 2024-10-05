@@ -18,6 +18,7 @@ A Continuous Integration workflow featuring relatively frequent branches and pul
 1. create a branch: https://www.git-tower.com/learn/git/faq/create-branch
 2. checkout the branch `git checkout <branch_name>`
 3. every update can be committed to the branch
-4. when ready to share create pull request of the feature branch to main
-5. share pull request link in chat
-6. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
+4. push updates to remote periodically - before that you need to set the upstreamorgin  `git push --set-upstream origin <branch_name>`
+5. when ready to share create pull request of the feature branch to main
+6. share pull request link in chat
+7. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
