@@ -11,3 +11,14 @@ This is the working repository for siads 699 capstone project. This is in the de
 7. Install project dependencies: `uv sync`
 8. Create the virutal environment  `uv env`
 9. For Jupiter notebooks, I've tested using Visual Studio Code.  One of the dependencies is iPython, with this the virtual enviroment can be used as a Kernel in visual studio.  For this create a .ipynb file, select uv virtual environment as kernel.  It should be called `.vnv (Python 3.10.5)`.   You can also take a different path like jupyter lab: https://docs.astral.sh/uv/guides/integration/jupyter/#using-jupyter-within-a-project
+
+# Development Workflow 
+A Continuous Integration workflow featuring relatively frequent branches and pull request is proposed so as to all be able to commit our own work while getting a chance to review and build off eachothers work. 
+
+1. create a branch: https://www.git-tower.com/learn/git/faq/create-branch
+2. checkout the branch `git checkout <branch_name>`
+3. every update can be committed to the branch
+4. push updates to remote periodically - before that you need to set the upstreamorgin  `git push --set-upstream origin <branch_name>`
+5. when ready to share create pull request of the feature branch to main
+6. share pull request link in chat
+7. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
