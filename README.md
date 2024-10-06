@@ -22,7 +22,7 @@ For intial setup
 
 For Free Music Archive Data
 For utilizing the pre-pepped data from here: https://nbviewer.org/github/mdeff/fma/blob/outputs/usage.ipynb 
-the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out.
+the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
 
 # Development Workflow 
 A Continuous Integration workflow featuring relatively frequent branches and pull request is proposed so as to all be able to commit our own work while getting a chance to review and build off eachothers work. 
