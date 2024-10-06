@@ -228,7 +228,7 @@ def load(filepath):
             tracks[column] = tracks[column].astype('category')
 
         return tracks
-'''
+
 
 def get_audio_path(audio_dir, track_id):
     """
@@ -246,7 +246,7 @@ def get_audio_path(audio_dir, track_id):
     tid_str = '{:06d}'.format(track_id)
     return os.path.join(audio_dir, tid_str[:3], tid_str + '.mp3')
 
-
+'''
 class Loader:
     def load(self, filepath):
         raise NotImplementedError()
