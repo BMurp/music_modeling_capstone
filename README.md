@@ -20,6 +20,12 @@ For intial setup
 2. Download contents of folder and put in `music_modeling_capstone/project_data_folder`, while ensuring your local copy is the same as g-drive copy including folder names and structure. 
 3. Data updates can be communicated in PRs to facilitate a manual process of retrieving data updates along with merging code updates. 
 
+Alternate approach is to download data directly from source and manually compile directory
+Ref: https://github.com/mdeff/fma
+- fma_metadata: https://os.unil.cloud.switch.ch/fma/fma_metadata.zip
+- fma_small.zip: https://os.unil.cloud.switch.ch/fma/fma_small.zip
+
+
 For Free Music Archive Data
 For utilizing the pre-pepped data from here: https://nbviewer.org/github/mdeff/fma/blob/outputs/usage.ipynb 
 the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
