@@ -1,7 +1,7 @@
 # music_modeling_capstone
 This is the working repository for siads 699 capstone project. This is in the defintion phase now. As project is further defined we can add more details as to the project scope.
 
-# Setup 
+# Setup Developement Evnrionment
 1. Install UV following the steps here: https://github.com/astral-sh/uv . This is used for managing python, dependencies, virtual environments, and ipython kernels.
 2. Make sure uv is avalable by typing `uv` command in terminal 
 3. use terminal to navigate to your chosen local directory for the project 
@@ -12,6 +12,14 @@ This is the working repository for siads 699 capstone project. This is in the de
 8. Create the virutal environment  `uv env`
 9. For Jupiter notebooks, I've tested using Visual Studio Code.  One of the dependencies is iPython, with this the virtual enviroment can be used as a Kernel in visual studio.  For this create a .ipynb file, select uv virtual environment as kernel.  It should be called `.vnv (Python 3.10.5)`.   You can also take a different path like jupyter lab: https://docs.astral.sh/uv/guides/integration/jupyter/#using-jupyter-within-a-project
 
+# Managing Data
+data is stored and distributed using G-Drive.  There is a "project_data_folder" on g-drive, and the expectation is this folder and it's structure is replicated locally within `music_modeling_capstone/project_data_folder`.  This folder has been added to gitignore to avoid tracking history here 
+
+For intial setup
+1. Go to the project_data_source folder here: https://drive.google.com/drive/u/1/folders/1iEgWbgOzuWd41frPpWAAUADBUJnJGC0p
+2. Download contents of folder and put in `music_modeling_capstone/project_data_folder`, while ensuring your local copy is the same as g-drive copy including folder names and structure. 
+3. Data updates can be communicated in PRs to facilitate a manual process of retrieving data updates along with merging code updates. 
+
 # Development Workflow 
 A Continuous Integration workflow featuring relatively frequent branches and pull request is proposed so as to all be able to commit our own work while getting a chance to review and build off eachothers work. 
 
@@ -20,5 +28,6 @@ A Continuous Integration workflow featuring relatively frequent branches and pul
 3. every update can be committed to the branch
 4. push updates to remote periodically - before that you need to set the upstreamorgin  `git push --set-upstream origin <branch_name>`
 5. when ready to share create pull request of the feature branch to main
-6. share pull request link in chat
-7. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
+6. If code update involed new data, add data to the project_data_folder on g-drive and mention this in the PR. 
+7. share pull request link in chat
+8. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
