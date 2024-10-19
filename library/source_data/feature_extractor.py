@@ -1,3 +1,11 @@
+#import sys
+#sys.path.insert(0, '../../')
+import librosa
+import numpy as np 
+
+
+
+
 class AudioFeatureExtractor():
     '''interface for audio feature extraction libraries
     takes a dataframe of the source data as input
