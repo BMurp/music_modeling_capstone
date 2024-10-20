@@ -14,9 +14,7 @@ class AudioFeatureExtractor():
     Attributes:
         source_data: should be based on CombinedDataLoader.df, a subset of rows can be passed for testing
         df : current state of the data frame 
-   
-
-    
+     
     '''
     def __init__(self,source_data):
         self.df = source_data.copy()
@@ -24,19 +22,20 @@ class AudioFeatureExtractor():
     
     def get_audio_data(self,file_name):
         try:
-            y, sr = librosa.load(file_name)
+            y, sr = librosa.load(file_name, sr=None)
+            feature_values = np.array(list(self.extract_features(y,sr).values()))
         except:
             return 0
-        return y, sr
+        return y, sr, feature_values
     
     def add_audio_data_to_df(self):
         self.df['audio_data'] = self.df['audio_path'].apply(self.get_audio_data)
 
         return 
     
-    def extract_features(self,file_path):
+    def extract_features(self,y,sr):
         try:
-            y, sr = librosa.load(file_path, sr=None)
+            #y, sr = librosa.load(file_path, sr=None)
 
             # Spectral Centroid
             spectral_centroids = librosa.feature.spectral_centroid(y=y, sr=sr)
