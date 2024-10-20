@@ -5,7 +5,7 @@ sys.path.insert(0, '../../')
 
 
 #print(sys.path)
-from configuration import DATA_SOURCE_FOLDER, DATA_SOURCE_PATH, MODEL_INPUT_DATA_PATH
+from configuration import DATA_SOURCE_FOLDER, DATA_SOURCE_PATH, MODEL_INPUT_DATA_PATH,FMA_METADATA_PATH,FMA_AUDIO_PATH,GTZAN_METADATA_PATH,GTZAN_AUDIO_PATH
 from library.source_data.data_sources import FreeMusicArchive, GTZAN
 
 
@@ -16,12 +16,12 @@ class CombinedDataLoader():
     
     '''
     def __init__(self):
-        self.FMA_MEATADATA_PATH =DATA_SOURCE_PATH +"free_music_archive/fma_metadata/"
-        self.FMA_AUDIO_PATH = DATA_SOURCE_FOLDER +"free_music_archive/fma_small/"
-        self.fma = FreeMusicArchive(self.FMA_MEATADATA_PATH,self.FMA_AUDIO_PATH)
-        self.GTZAN_MEATADATA_PATH = DATA_SOURCE_PATH+"gtzan_dataset/Data/"
-        self.GTZAN_AUDIO_PATH = DATA_SOURCE_FOLDER+"gtzan_dataset/Data/genres_original"
-        self.gtzan = GTZAN(self.GTZAN_MEATADATA_PATH,self.GTZAN_AUDIO_PATH)
+        self.FMA_METADATA_PATH =FMA_METADATA_PATH
+        self.FMA_AUDIO_PATH = FMA_AUDIO_PATH
+        self.fma = FreeMusicArchive(self.FMA_METADATA_PATH,self.FMA_AUDIO_PATH)
+        self.GTZAN_METADATA_PATH = GTZAN_METADATA_PATH
+        self.GTZAN_AUDIO_PATH = GTZAN_AUDIO_PATH
+        self.gtzan = GTZAN(self.GTZAN_METADATA_PATH,self.GTZAN_AUDIO_PATH)
         self.df = self.get_combined_df()
         return 
     def get_combined_df(self):
@@ -29,7 +29,7 @@ class CombinedDataLoader():
         return pd.concat([data.get_file_meta() for data in [self.fma,self.gtzan]])
     
 class ModelDataLoader():
-    '''Loads and provides access to model input data'''
+    '''Loads and provides access to model input data and related information'''
     def __init__(self,version = '000'):
         self.df = pd.read_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}')
         self.feature_names = ['spectral_centroids_mean',

@@ -33,13 +33,14 @@ class AudioFeatureExtractor():
             feature_values = np.array(list(self.extract_features(y,sr).values())).astype('float32')
         except:
             return None
-        return y, sr, feature_values
-        return np.array([y, sr, feature_values])
+        return None, sr, feature_values #do not return full audio
+        return y, sr, feature_values #for returning full audio data as well
+      
     
     def add_audio_data_to_df(self):
         self.df['audio_data'] = self.df['audio_path'].apply(self.get_audio_data)
         print('putting features to their own columns')
-        self.df['librosa_load'] = self.df['audio_data'].apply(lambda data: data[0] if data is not None else None)
+        #self.df['librosa_load'] = self.df['audio_data'].apply(lambda data: data[0] if data is not None else None)
         self.df['sampling_rate'] = self.df['audio_data'].apply(lambda data: data[1] if data is not None else None)
         self.df['features'] = self.df['audio_data'].apply(lambda data: data[2] if data is not None else None)
 
@@ -47,7 +48,16 @@ class AudioFeatureExtractor():
         return
 
     def save_results(self, version= '000'):
+         #just save data where audio was succesfully returned
          to_save = self.df[self.df['audio_data'].isnull() == False]
+         #force object type colums to strings to avoid errors
+         to_save['fma_genres'] = to_save['fma_genres'].astype('string')
+         to_save['fma_genres_all'] = to_save['fma_genres'].astype('string')
+         #put index as a column as well and set to string
+         to_save.reset_index(inplace=True)
+         to_save['track_id'] = to_save['track_id'].astype('string')
+         
+         #drop audio_data and save to parquest
          to_save.drop(columns=['audio_data']).to_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}',index=True)
     
     def extract_features(self,y,sr):
