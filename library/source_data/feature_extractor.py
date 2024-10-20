@@ -2,6 +2,10 @@
 #sys.path.insert(0, '../../')
 import librosa
 import numpy as np 
+import sys
+sys.path.insert(0, '../../')
+from configuration import PROJECT_ABSOLUTE_PATH, MODEL_INPUT_DATA_PATH
+
 
 
 
@@ -22,16 +26,29 @@ class AudioFeatureExtractor():
     
     def get_audio_data(self,file_name):
         try:
-            y, sr = librosa.load(file_name, sr=None)
-            feature_values = np.array(list(self.extract_features(y,sr).values()))
+            #print('Processing File ', file_name)
+            #print('Run Librosa Load')
+            y, sr = librosa.load(PROJECT_ABSOLUTE_PATH+file_name, sr=None)
+            #print('extracting_features')
+            feature_values = np.array(list(self.extract_features(y,sr).values())).astype('float32')
         except:
-            return 0
+            return None
         return y, sr, feature_values
+        return np.array([y, sr, feature_values])
     
     def add_audio_data_to_df(self):
         self.df['audio_data'] = self.df['audio_path'].apply(self.get_audio_data)
+        print('putting features to their own columns')
+        self.df['librosa_load'] = self.df['audio_data'].apply(lambda data: data[0] if data is not None else None)
+        self.df['sampling_rate'] = self.df['audio_data'].apply(lambda data: data[1] if data is not None else None)
+        self.df['features'] = self.df['audio_data'].apply(lambda data: data[2] if data is not None else None)
 
-        return 
+
+        return
+
+    def save_results(self, version= '000'):
+         to_save = self.df[self.df['audio_data'].isnull() == False]
+         to_save.drop(columns=['audio_data']).to_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}',index=True)
     
     def extract_features(self,y,sr):
         try:
