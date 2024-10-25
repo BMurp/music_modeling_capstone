@@ -40,7 +40,13 @@ class ModelDataLoader():
                 'zero_crossing_rate_mean',
                 'rms_mean',
                 'chroma_stft_mean',
-                'mfccs_mean']
+                'mfccs_mean',
+                'onset',
+                'tempo',
+                'contrast',
+                'tonnetz',
+                'mfccs_min',
+                'mfccs_max']
         self.add_named_feature_columns()
         
     def add_named_feature_columns(self):
@@ -51,4 +57,4 @@ class ModelDataLoader():
 
 
 #For debug purposes
-#print(type(CombinedDataLoader()))
+print(type(CombinedDataLoader()))
