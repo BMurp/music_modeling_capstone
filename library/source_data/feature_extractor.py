@@ -20,7 +20,7 @@ class AudioFeatureExtractor():
         df : current state of the data frame 
      
     '''
-    def __init__(self,source_data):
+    def __init__(self,source_data): 
         self.df = source_data.copy()
         return
     
@@ -93,7 +93,23 @@ class AudioFeatureExtractor():
             # MFCCs (Mel-Frequency Cepstral Coefficients)
             mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
             mfccs_mean = np.mean(mfccs, axis=1).mean()
+            mfccs_min = np.min(mfccs, axis=1).min()
+            mfccs_max = np.max(mfccs, axis=1).max()
+            
+            #Onset and Tempo 
+            onset_env = librosa.onset.onset_strength(y=y, sr=sr)
+            onset_env_mean = np.mean(onset_env)
+            tempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr)[0]
+            
+            #Contrast 
+            
+            contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+            contrast_mean = np.mean(contrast )
 
+            #Tonnetz
+            tonnetz = librosa.feature.tonnetz(y=y, sr=sr)
+            tonnetz_mean = np.mean(tonnetz)
+    
             # Return all features as a dictionary
             return {
                 'spectral_centroids_mean': spectral_centroids_mean,
@@ -104,7 +120,13 @@ class AudioFeatureExtractor():
                 'zero_crossing_rate_mean': zero_crossing_rate_mean,
                 'rms_mean': rms_mean,
                 'chroma_stft_mean': chroma_stft_mean,
-                'mfccs_mean': mfccs_mean
+                'mfccs_mean': mfccs_mean,
+                'onset' : onset_env_mean,
+                'tempo':tempo,
+                'contrast' :contrast_mean,
+                'tonnetz' :tonnetz_mean,
+                'mfccs_min' : mfccs_min,
+                'mfccs_max': mfccs_max
             }
         except Exception as e:
             print(f"Error processing {file_path}: {e}")
