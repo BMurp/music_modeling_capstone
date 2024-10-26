@@ -975,6 +975,9 @@ dependencies = [
     { name = "pandas" },
     { name = "pyarrow" },
     { name = "seaborn" },
+    { name = "vegafusion" },
+    { name = "vegafusion-python-embed" },
+    { name = "vl-convert-python" },
 ]
 
 [package.dev-dependencies]
@@ -991,6 +994,9 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pyarrow", specifier = ">=17.0.0" },
     { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "vegafusion", specifier = ">=1.6.9" },
+    { name = "vegafusion-python-embed", specifier = ">=1.6.9" },
+    { name = "vl-convert-python", specifier = ">=1.7.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -1293,6 +1299,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/2d/4f/feb5e137aff82f7c7f3248267b97451da3644f6cdc218edfe549fb354127/prompt_toolkit-3.0.48.tar.gz", hash = "sha256:d6623ab0477a80df74e646bdbc93621143f5caf104206aa29294d53de1a03d90", size = 424684 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a9/6a/fd08d94654f7e67c52ca30523a178b3f8ccc4237fce4be90d39c938a831a/prompt_toolkit-3.0.48-py3-none-any.whl", hash = "sha256:f49a827f90062e411f1ce1f854f2aedb3c23353244f8108b89283587397ac10e", size = 386595 },
+]
+
+[[package]]
+name = "protobuf"
+version = "5.28.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/74/6e/e69eb906fddcb38f8530a12f4b410699972ab7ced4e21524ece9d546ac27/protobuf-5.28.3.tar.gz", hash = "sha256:64badbc49180a5e401f373f9ce7ab1d18b63f7dd4a9cdc43c92b9f0b481cef7b", size = 422479 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d1/c5/05163fad52d7c43e124a545f1372d18266db36036377ad29de4271134a6a/protobuf-5.28.3-cp310-abi3-win32.whl", hash = "sha256:0c4eec6f987338617072592b97943fdbe30d019c56126493111cf24344c1cc24", size = 419624 },
+    { url = "https://files.pythonhosted.org/packages/9c/4c/4563ebe001ff30dca9d7ed12e471fa098d9759712980cde1fd03a3a44fb7/protobuf-5.28.3-cp310-abi3-win_amd64.whl", hash = "sha256:91fba8f445723fcf400fdbe9ca796b19d3b1242cd873907979b9ed71e4afe868", size = 431464 },
+    { url = "https://files.pythonhosted.org/packages/1c/f2/baf397f3dd1d3e4af7e3f5a0382b868d25ac068eefe1ebde05132333436c/protobuf-5.28.3-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:a3f6857551e53ce35e60b403b8a27b0295f7d6eb63d10484f12bc6879c715687", size = 414743 },
+    { url = "https://files.pythonhosted.org/packages/85/50/cd61a358ba1601f40e7d38bcfba22e053f40ef2c50d55b55926aecc8fec7/protobuf-5.28.3-cp38-abi3-manylinux2014_aarch64.whl", hash = "sha256:3fa2de6b8b29d12c61911505d893afe7320ce7ccba4df913e2971461fa36d584", size = 316511 },
+    { url = "https://files.pythonhosted.org/packages/5d/ae/3257b09328c0b4e59535e497b0c7537d4954038bdd53a2f0d2f49d15a7c4/protobuf-5.28.3-cp38-abi3-manylinux2014_x86_64.whl", hash = "sha256:712319fbdddb46f21abb66cd33cb9e491a5763b2febd8f228251add221981135", size = 316624 },
+    { url = "https://files.pythonhosted.org/packages/57/b5/ee3d918f536168def73b3f49edeba065429ab3a7e7b033d33e69c46ddff9/protobuf-5.28.3-cp39-cp39-win32.whl", hash = "sha256:135658402f71bbd49500322c0f736145731b16fc79dc8f367ab544a17eab4535", size = 419648 },
+    { url = "https://files.pythonhosted.org/packages/53/54/e1bdf6f1d29828ddb6aca0a83bf208ab1d5f88126f34e17e487b2cd20d93/protobuf-5.28.3-cp39-cp39-win_amd64.whl", hash = "sha256:70585a70fc2dd4818c51287ceef5bdba6387f88a578c86d47bb34669b5552c36", size = 431591 },
+    { url = "https://files.pythonhosted.org/packages/ad/c3/2377c159e28ea89a91cf1ca223f827ae8deccb2c9c401e5ca233cd73002f/protobuf-5.28.3-py3-none-any.whl", hash = "sha256:cee1757663fa32a1ee673434fcf3bf24dd54763c79690201208bafec62f19eed", size = 169511 },
 ]
 
 [[package]]
@@ -1874,6 +1896,48 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/ed/63/22ba4ebfe7430b76388e7cd448d5478814d3032121827c12a2cc287e2260/urllib3-2.2.3.tar.gz", hash = "sha256:e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9", size = 300677 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ce/d9/5f4c13cecde62396b0d3fe530a50ccea91e7dfc1ccf0e09c228841bb5ba8/urllib3-2.2.3-py3-none-any.whl", hash = "sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac", size = 126338 },
+]
+
+[[package]]
+name = "vegafusion"
+version = "1.6.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "altair" },
+    { name = "pandas" },
+    { name = "protobuf" },
+    { name = "psutil" },
+    { name = "pyarrow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2a/89/3f218f0b6f4547f74e3733f62f4f15082b6b37bf7969eaf1cff0d833d593/vegafusion-1.6.9.tar.gz", hash = "sha256:cc24c441b0ee301b2b10a6554ac8b3ab1efc8e9c9886de64a5a4d0881c51b070", size = 114618 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0f/ff/373735f2d876542ef94b1a16d6d60dcff48bea539cc14edc9b589bc9cca2/vegafusion-1.6.9-py3-none-any.whl", hash = "sha256:f9e2f193a86c0eec3efe884f75d15232b050597e94f96f9c33ef6d630243178f", size = 54548 },
+]
+
+[[package]]
+name = "vegafusion-python-embed"
+version = "1.6.9"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ab/87/a47809d9eb9d0c05b07393f2ff4e905659d749847db343691fc459039336/vegafusion_python_embed-1.6.9.tar.gz", hash = "sha256:6e339c236c8a15e59898cb4ab490ab3ca40af4657db588d8d766fc1f2ba80c20", size = 6752025 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/cf/ec89b66a970cd1f8184fd7b604c88e903cc15979cf9b846a64843aa059ab/vegafusion_python_embed-1.6.9-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:a778a6d5fd3147be7aaf4f25e27a01c989cd39d0bb896ef36b3ad19b853637b0", size = 20064099 },
+    { url = "https://files.pythonhosted.org/packages/f7/03/cef83bd69d3590d4357c04ecf38600d626f3a78a5d75e24f26ba70f7f879/vegafusion_python_embed-1.6.9-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:90ccc70f98b62c42ca01b7613e5d46993ae1bef54e78a856addf43aff5a77930", size = 18880371 },
+    { url = "https://files.pythonhosted.org/packages/8f/44/eae3f8271a3e912bff89bdc22e254ad727a4312f8fb83f58ac019acb646e/vegafusion_python_embed-1.6.9-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75dcc14f1b911f1f6e1dd5d40e43fb33e3cf05dce3e9faa188080a9df2565dac", size = 25072935 },
+    { url = "https://files.pythonhosted.org/packages/91/03/ef750d7341fe0505caeb90d754e3bcca083e627287ce5fdd0daa83706b3f/vegafusion_python_embed-1.6.9-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:a248fc2bd6df198551a5705c3c9b1f11de738bd6e2f184f0e0657d65c01922b1", size = 19823682 },
+    { url = "https://files.pythonhosted.org/packages/b8/0c/424b50f9cf3921b72d9e5dde5dc1750dfe2d4b958a5dd51806a617f4d8c4/vegafusion_python_embed-1.6.9-cp38-abi3-win_amd64.whl", hash = "sha256:1cc83b9c7fe91493902dae5f4ca90b7692916e5171dfd1feafd23504e9aca3b4", size = 21049718 },
+]
+
+[[package]]
+name = "vl-convert-python"
+version = "1.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e6/f1/43803e91e12d4ab697eedc5e14029d1630daea0c81abc6321b96a31a7dc0/vl_convert_python-1.7.0.tar.gz", hash = "sha256:bc9e1f8ca0d8d3b3789c66e37cd6a8cf0a83406427d5143133346c2b5004485b", size = 4719466 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e2/1c/b0dc67d9e51eb9d14c35c79e033a680a92418edd12a3879bb50aade597a1/vl_convert_python-1.7.0-cp37-abi3-macosx_10_12_x86_64.whl", hash = "sha256:90fba4356bd621bd31e72507a55e26dd13ebe79efa784715743116109afd0d47", size = 28233538 },
+    { url = "https://files.pythonhosted.org/packages/dc/50/4b8b500f0b3c0b24ef3bec01563de412e95dbf27cfe53e403e6fa8514525/vl_convert_python-1.7.0-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:51f99c58b1d0d74126455ece7d41972740cb4430b8dfdf7e0908270eed5be32d", size = 26940338 },
+    { url = "https://files.pythonhosted.org/packages/95/0f/139568d71fadcb1be697acd2ccd0b79bd1553ca833d4448312191cd33654/vl_convert_python-1.7.0-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:962100d7670b9d35f9bb9745cdf590412f62f57c134b4a142340ba93a4dbddba", size = 29124271 },
+    { url = "https://files.pythonhosted.org/packages/91/3c/c34e52138fa38eb6059cdb2c603ba1433decf4f97cb89e767c04a9605eff/vl_convert_python-1.7.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8b50c492b640abb89a54a71e2c26f0f2d2c1cedc42030cc55bcc202670334724", size = 30089941 },
+    { url = "https://files.pythonhosted.org/packages/ae/e2/c4a3fff3efcfeebaab554c9c4b027e875fd339da7f619b144765353a60d1/vl_convert_python-1.7.0-cp37-abi3-win_amd64.whl", hash = "sha256:285bbadb1ce8a922c87f6e75a9544fe10a652d37bd4c1519fb93f90bab381588", size = 29796401 },
 ]
 
 [[package]]
