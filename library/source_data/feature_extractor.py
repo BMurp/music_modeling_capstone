@@ -3,6 +3,7 @@
 import librosa
 import numpy as np 
 import sys
+import os
 sys.path.insert(0, '../../')
 from configuration import PROJECT_ABSOLUTE_PATH, MODEL_INPUT_DATA_PATH
 
@@ -24,6 +25,13 @@ class AudioFeatureExtractor():
         self.df = source_data.copy()
         return
     
+    def run_extraction_thread(self, version, batch, thread):
+        '''for combining extraction and saving for the purpose of parallelization
+        puts each result into it's own file 
+        '''
+        self.add_audio_data_to_df()
+        self.save_results(version, batch, thread)
+    
     def get_audio_data(self,file_name):
         try:
             #print('Processing File ', file_name)
@@ -39,7 +47,7 @@ class AudioFeatureExtractor():
     
     def add_audio_data_to_df(self):
         self.df['audio_data'] = self.df['audio_path'].apply(self.get_audio_data)
-        print('putting features to their own columns')
+        #print('putting features to their own columns')
         #self.df['librosa_load'] = self.df['audio_data'].apply(lambda data: data[0] if data is not None else None)
         self.df['sampling_rate'] = self.df['audio_data'].apply(lambda data: data[1] if data is not None else None)
         self.df['features'] = self.df['audio_data'].apply(lambda data: data[2] if data is not None else None)
@@ -47,7 +55,7 @@ class AudioFeatureExtractor():
 
         return
 
-    def save_results(self, version= '000'):
+    def save_results(self, version= '000', batch = None, thread= None):
          #just save data where audio was succesfully returned
          to_save = self.df[self.df['audio_data'].isnull() == False]
          #force object type colums to strings to avoid errors
@@ -58,7 +66,17 @@ class AudioFeatureExtractor():
          to_save['track_id'] = to_save['track_id'].astype('string')
          
          #drop audio_data and save to parquest
-         to_save.drop(columns=['audio_data']).to_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}',index=True)
+         if thread is None:
+            to_save.drop(columns=['audio_data']).to_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}',index=True)
+         else:
+            #make the folder for this version if not exist
+            os.makedirs(f"{MODEL_INPUT_DATA_PATH}model_input_{version}/", exist_ok=True) 
+            #write the file to folder
+            batch_string = '{:03d}'.format(batch)
+            thread_string = '{:03d}'.format(thread)
+            to_save.drop(columns=['audio_data']).to_parquet(f"{MODEL_INPUT_DATA_PATH}model_input_{version}/{batch_string}_{thread_string}",index=True)
+
+
     
     def extract_features(self,y,sr):
         try:
