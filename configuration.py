@@ -29,5 +29,5 @@ GTZAN_METADATA_PATH = DATA_SOURCE_PATH+"gtzan_dataset/Data/"
 GTZAN_AUDIO_PATH = DATA_SOURCE_FOLDER+"gtzan_dataset/Data/genres_original"
 
 #Model Input Data 
-MODEL_INPUT_DATA_FOLER = '/model_input_data/'
+MODEL_INPUT_DATA_FOLER = 'model_input_data/'
 MODEL_INPUT_DATA_PATH = DATA_SOURCE_PATH + MODEL_INPUT_DATA_FOLER
