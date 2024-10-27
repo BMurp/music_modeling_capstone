@@ -44,7 +44,7 @@ class FreeMusicArchive(DataSource):
 
     def __init__(self, metadata_path, audio_path):
         DataSource.__init__(self, metadata_path, audio_path)
-        self.tracks = tracks =fma_utils.load(self.metadata_path + 'tracks.csv')
+        self.tracks =fma_utils.load(self.metadata_path + 'tracks.csv')
 
     def get_file_meta(self):
         track_meta = self.tracks['track']
@@ -62,6 +62,9 @@ class FreeMusicArchive(DataSource):
         #lower case and replace '-'
         id_and_labels['label'] = id_and_labels['label'].str.lower()
         id_and_labels['label'] = id_and_labels['label'].str.replace('-', '')
+        #make track_id same as file
+        id_and_labels.index = id_and_labels.index.map(lambda track_id: '{:06d}'.format(track_id))
+        #id_and_labels['track_id'] = id_and_labels['track_id'].apply(lambda track_id: '{:03d}'.format(track_id))
 
         
         return id_and_labels[self.columns]

@@ -31,6 +31,8 @@ class AudioFeatureExtractor():
         '''
         self.add_audio_data_to_df()
         self.save_results(version, batch, thread)
+    def logger_function(self,thread, start_record, end_record):
+        print(f"starting thread {thread} for data between index {start_record} and {end_record}")
     
     def get_audio_data(self,file_name):
         try:
@@ -66,8 +68,10 @@ class AudioFeatureExtractor():
          to_save['track_id'] = to_save['track_id'].astype('string')
          
          #drop audio_data and save to parquest
+         #run not run by parallel processor write to one file in model_input directory
          if thread is None:
             to_save.drop(columns=['audio_data']).to_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}',index=True)
+         #When running in parallel processor mode write files within a versioned path with batch and thread in filename
          else:
             #make the folder for this version if not exist
             os.makedirs(f"{MODEL_INPUT_DATA_PATH}model_input_{version}/", exist_ok=True) 
