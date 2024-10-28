@@ -26,7 +26,7 @@ class CombinedDataLoader():
         self.df = self.get_combined_df()
         self.df_files_available = self.df[self.df.file_available ==1]
         self.df_genres_available = self.df[self.df.label.isnull() ==False]
-        self.df_filtered = self.df_files_available[ self.df.label.isnull() ==False ]   
+        self.df_filtered = self.df_files_available[self.df.label.isnull() ==False ]   
         self.print_data_summary()
         return 
     def print_data_summary(self):
