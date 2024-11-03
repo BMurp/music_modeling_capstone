@@ -1,8 +1,11 @@
 
 import pandas as pd
+import numpy as np
 import sys
+import os
 sys.path.insert(0, '../../')
 
+from configuration import PROJECT_ABSOLUTE_PATH,FMA_METADATA_PATH,FMA_SMALL_AUDIO_PATH, FMA_MEDIUM_AUDIO_PATH,GTZAN_AUDIO_PATH,GTZAN_METADATA_PATH
 #print('datasource paths',sys.path)
 import fma_modules.utils as fma_utils
 
@@ -17,9 +20,8 @@ class DataSource():
     
     
     '''
-    def __init__(self,metadata_path, audio_path):
+    def __init__(self,metadata_path):
         self.metadata_path = metadata_path 
-        self.audio_path = audio_path
         self.columns = ['dataset',
                         'audio_path',
                         'label',
@@ -33,18 +35,44 @@ class DataSource():
 
 
         return 
-    
-    def get_audio_paths(self):
-        '''Returns series of audio paths '''
+    def get_audio_folder_path(self):
+        '''Returns base path location for directory of audio files'''
         return
+    
+    def get_audio_absolute_path(self):
+        '''Returns absolute path to audio folder '''
+        return PROJECT_ABSOLUTE_PATH + self.get_audio_folder_path()
+        
+
+    def get_audio_file_paths(self):
+        '''Returns series of audio file '''
+        return
+    
+    def get_track_id_from_file_name(self,file_name):
+        '''based on provided file name return corresponding track id in metadata'''
+        return file_name
+    def get_track_ids_from_files(self):
+        '''loops through the file path of the provided dataset and returns file availabilty dataframe'''
+        
+        # List all files in the folder
+        track_ids = []
+        for root, dirs, files in os.walk(self.get_audio_absolute_path()):
+            #print(f"Found directory: {root.split('/')[-1]}", )
+            if root.split('/')[-1] != '':
+                for file_name in files:
+                        track_ids.append(self.get_track_id_from_file_name(file_name))
+                
+        track_id_df = pd.DataFrame({'track_id':track_ids, 'file_available': np.ones(len(track_ids))})
+        return track_id_df
 
         
 class FreeMusicArchive(DataSource):
     '''Specifics of Free Music Archive Data Source'''
 
-    def __init__(self, metadata_path, audio_path):
-        DataSource.__init__(self, metadata_path, audio_path)
+    def __init__(self, audio_size = 'small'):
+        DataSource.__init__(self, metadata_path = FMA_METADATA_PATH)
         self.tracks =fma_utils.load(self.metadata_path + 'tracks.csv')
+        self.audio_size = audio_size
 
     def get_file_meta(self):
         track_meta = self.tracks['track']
@@ -56,7 +84,7 @@ class FreeMusicArchive(DataSource):
                                           })
                          )
         id_and_labels['dataset']= 'fma'
-        id_and_labels['audio_path'] = self.get_audio_paths()
+        id_and_labels['audio_path'] = self.get_audio_file_paths()
         id_and_labels['label'] = id_and_labels['fma_genre_top']
         
         #lower case and replace '-'
@@ -69,19 +97,33 @@ class FreeMusicArchive(DataSource):
         
         return id_and_labels[self.columns]
     
-    def get_audio_paths(self):
+    def get_audio_folder_path(self):
+        '''bases path based on audio_size'''
+        audio_path = ''
+        if self.audio_size == 'small':
+            audio_path = FMA_SMALL_AUDIO_PATH
+        else:
+            audio_path = FMA_MEDIUM_AUDIO_PATH
+        return audio_path
+
+    def get_audio_file_paths(self):
+        '''returns series of audio paths'''
         return (self.tracks.index
                     .to_series()
-                    .map(lambda index: fma_utils.get_audio_path(self.audio_path, index))
+                    .map(lambda index: fma_utils.get_audio_path(self.get_audio_folder_path(), index))
                 )
+    def get_track_id_from_file_name(self,file_name):
+        return file_name.split('.')[0]
+
+
 
 
 class GTZAN(DataSource):
     '''Specifics of GTZAN data source'''
 
-    def __init__(self, metadata_path, audio_path):
-        DataSource.__init__(self, metadata_path, audio_path)
-        self.features_30_sec = pd.read_csv(metadata_path+ 'features_30_sec.csv')
+    def __init__(self):
+        DataSource.__init__(self, metadata_path = GTZAN_METADATA_PATH)
+        self.features_30_sec = pd.read_csv(self.metadata_path+ 'features_30_sec.csv')
         return
     def get_file_meta(self):      
         id_and_labels = self.features_30_sec[['filename','label']].reset_index()
@@ -89,7 +131,7 @@ class GTZAN(DataSource):
 
         id_and_labels['dataset']= 'gtzan'
 
-        id_and_labels['audio_path'] = self.audio_path +'/'+ id_and_labels.label + '/' + id_and_labels.filename
+        id_and_labels['audio_path'] = self.get_audio_folder_path() +'/'+ id_and_labels.label + '/' + id_and_labels.filename
 
         harmonized = id_and_labels.set_index('track_id')
         harmonized['fma_genre_top'] = 'n/a'
@@ -102,6 +144,9 @@ class GTZAN(DataSource):
         harmonized['label'] = harmonized['label'].replace('reggae', 'international')
 
         return harmonized[self.columns]
+    def get_audio_folder_path(self):
+        return GTZAN_AUDIO_PATH
+
     
 
 

@@ -2,7 +2,6 @@ from multiprocessing import Process
 import sys
 sys.path.insert(0, '../../')
 from library.source_data.feature_extractor import AudioFeatureExtractor
-print('test')
 
 class AudioParallelProcessor():
     '''allows for parallel extraction , for a given number threads source data is divided into 
