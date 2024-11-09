@@ -68,7 +68,7 @@ class ModelDataLoader():
                 'mfccs_min',
                 'mfccs_max']
         self.label_names = self.df.label.unique()
-        self.class_distribution = pd.DataFrame(data_df['label'].value_counts(normalize=True) * 100).reset_index()
+        self.class_distribution = pd.DataFrame(self.df['label'].value_counts(normalize=True) * 100).reset_index()
 
         self.add_named_feature_columns()
         
