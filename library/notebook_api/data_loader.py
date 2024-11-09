@@ -8,6 +8,10 @@ from configuration import  MODEL_INPUT_DATA_PATH
 from library.source_data.data_sources import FreeMusicArchive, GTZAN
 
 
+
+
+
+
 class CombinedDataLoader():
     '''Loads each raw data source and provides acccess to unioned result
     Attributes:
@@ -63,6 +67,9 @@ class ModelDataLoader():
                 'tonnetz',
                 'mfccs_min',
                 'mfccs_max']
+        self.label_names = self.df.label.unique()
+        self.class_distribution = pd.DataFrame(data_df['label'].value_counts(normalize=True) * 100).reset_index()
+
         self.add_named_feature_columns()
         
     def add_named_feature_columns(self):
