@@ -145,7 +145,7 @@ class AudioFeatureExtractor():
                 mfccs_max
             ]).astype('float32')
         except Exception as e:
-            print(f"Error processing {file_path}: {e}")
+            print(f"Error processing audio: {e}")
             return None  # Return None if there’s an error
         
     def save_results(self, version= '000', batch = None, thread= None):
