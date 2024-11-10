@@ -64,11 +64,14 @@ class AudioFeatureExtractor():
     def get_new_mfcc(self, audio_and_sampling_rate):
         if audio_and_sampling_rate is None:
             return None
-        '''referencing the power_to_db approach from https://www.kaggle.com/code/nilshmeier/melspectrogram-based-cnn-classification'''
         y, sr = audio_and_sampling_rate[0],audio_and_sampling_rate[1]
-        mels = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=512)
-        mels_db = librosa.power_to_db(S=mels, ref=1.0)
-        return mels_db
+        
+        #referencing the power_to_db approach from https://www.kaggle.com/code/nilshmeier/melspectrogram-based-cnn-classification'''
+        #mel spectrogram stub code
+        #mels = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=512)
+        #mels_db = librosa.power_to_db(S=mels, ref=1.0)
+        mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+        return mfcc
 
   
     def extract_numerical_features(self,audio_and_sampling_rate):
