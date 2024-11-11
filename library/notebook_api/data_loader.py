@@ -77,7 +77,7 @@ class ModelDataLoader():
         
     def add_named_feature_columns(self):
         for index, feature in enumerate(self.feature_names):
-            self.df[feature] = self.df.features.map(lambda features: features[index])
+            self.df[feature] = self.df.features.map(lambda features: features[index] if features is not None else None)
 
     def get_mfcc(self):
         npy_path = self.data_path + '_mfcc/*npy'
