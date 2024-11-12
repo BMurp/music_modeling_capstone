@@ -9,10 +9,6 @@ from configuration import  MODEL_INPUT_DATA_PATH
 from library.source_data.data_sources import FreeMusicArchive, GTZAN
 
 
-
-
-
-
 class CombinedDataLoader():
     '''Loads each raw data source and provides acccess to unioned result
     Attributes:
