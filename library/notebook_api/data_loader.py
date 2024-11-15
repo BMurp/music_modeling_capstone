@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np 
 import sys
 import os
+import glob
 sys.path.insert(0, '../../')
 from configuration import  MODEL_INPUT_DATA_PATH
 from library.source_data.data_sources import FreeMusicArchive, GTZAN
@@ -47,7 +48,9 @@ class CombinedDataLoader():
 class ModelDataLoader():
     '''Loads and provides access to model input data and related information'''
     def __init__(self,version = '000'):
-        self.df = pd.read_parquet(f'{MODEL_INPUT_DATA_PATH}model_input_{version}')
+        self.version = version
+        self.data_path = f'{MODEL_INPUT_DATA_PATH}model_input_{self.version}'
+        self.df = pd.read_parquet(self.data_path)
         self.feature_names = ['spectral_centroids_mean',
                 'spectral_centroids_delta_mean',
                 'spectral_centroids_accelerate_mean',
@@ -63,11 +66,27 @@ class ModelDataLoader():
                 'tonnetz',
                 'mfccs_min',
                 'mfccs_max']
+        self.label_names = self.df.label.unique()
+        self.class_distribution = pd.DataFrame(self.df['label'].value_counts(normalize=True) * 100).reset_index()
+
         self.add_named_feature_columns()
         
     def add_named_feature_columns(self):
         for index, feature in enumerate(self.feature_names):
-            self.df[feature] = self.df.features.map(lambda features: features[index])
+            self.df[feature] = self.df.features.map(lambda features: features[index] if features is not None else None)
+
+    def get_mfcc(self):
+        npy_path = self.data_path + '_mfcc/*npy'
+        files = glob.glob(npy_path)
+        mfcc_array = []
+        for file in files:
+            mfcc_array.append(np.load(file, allow_pickle=True))
+        #mfcc_array
+        combined_array = np.concatenate(mfcc_array, axis=0)
+        return combined_array
+
+
+
 
 
 

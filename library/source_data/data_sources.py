@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.insert(0, '../../')
 
-from configuration import PROJECT_ABSOLUTE_PATH,FMA_METADATA_PATH,FMA_SMALL_AUDIO_PATH, FMA_MEDIUM_AUDIO_PATH,GTZAN_AUDIO_PATH,GTZAN_METADATA_PATH
+from configuration import PROJECT_ABSOLUTE_PATH,FMA_METADATA_PATH,FMA_SMALL_AUDIO_PATH, FMA_MEDIUM_AUDIO_PATH,FMA_LARGE_AUDIO_PATH,GTZAN_AUDIO_PATH,GTZAN_METADATA_PATH
 #print('datasource paths',sys.path)
 import fma_modules.utils as fma_utils
 
@@ -102,8 +102,12 @@ class FreeMusicArchive(DataSource):
         audio_path = ''
         if self.audio_size == 'small':
             audio_path = FMA_SMALL_AUDIO_PATH
-        else:
+        elif self.audio_size == 'medium':
             audio_path = FMA_MEDIUM_AUDIO_PATH
+        elif self.audio_size == 'large':
+            audio_path = FMA_LARGE_AUDIO_PATH
+        else:
+            audio_path = FMA_SMALL_AUDIO_PATH
         return audio_path
 
     def get_audio_file_paths(self):
