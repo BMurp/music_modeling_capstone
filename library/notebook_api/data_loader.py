@@ -50,7 +50,7 @@ class ModelDataLoader():
     def __init__(self,version = '000'):
         self.version = version
         self.data_path = f'{MODEL_INPUT_DATA_PATH}model_input_{self.version}'
-        self.df = pd.read_parquet(self.data_path)
+        self.df = self.get_df_from_parquet()
         self.feature_names = ['spectral_centroids_mean',
                 'spectral_centroids_delta_mean',
                 'spectral_centroids_accelerate_mean',
@@ -70,7 +70,34 @@ class ModelDataLoader():
         self.class_distribution = pd.DataFrame(self.df['label'].value_counts(normalize=True) * 100).reset_index()
 
         self.add_named_feature_columns()
-        
+    
+    def test_row_uniqueness(self,model_data_loader_df):
+        '''asserts that there are no duplicate rows in provided dataframe
+        if a file appears on more then one row - or if indexes are not unique
+        it can lead to unpredictable results in filtering and splitting 
+        '''
+        try:
+            assert len(
+                set(
+                    (len(model_data_loader_df),
+                    len(pd.Series(model_data_loader_df.index).value_counts()),
+                    len(model_data_loader_df.groupby('track_id').count()),
+                    len(model_data_loader_df.groupby('audio_path').count())
+                    )
+                )
+            ) == 1, 'ERROR: Incorrect Row-Wise Structure of DataFrame, there are duplicate indexes or audio files'
+        except AssertionError as msg:
+            print(msg)
+    def get_df_from_parquet(self):
+        '''reads data frame from parquet, drops unneeded columns resets index'''
+        df = pd.read_parquet(self.data_path)
+        drop_columns = [column for column in df.columns if column in ['level_0','index']]
+        df.drop(columns=drop_columns)
+        df.reset_index(inplace=True)
+        #row uniques test
+        self.test_row_uniqueness(df)
+        return df
+    
     def add_named_feature_columns(self):
         for index, feature in enumerate(self.feature_names):
             self.df[feature] = self.df.features.map(lambda features: features[index] if features is not None else None)
@@ -83,6 +110,7 @@ class ModelDataLoader():
             mfcc_array.append(np.load(file, allow_pickle=True))
         #mfcc_array
         combined_array = np.concatenate(mfcc_array, axis=0)
+
         return combined_array
 
 
