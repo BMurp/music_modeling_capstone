@@ -91,8 +91,10 @@ class ModelDataLoader():
     def get_df_from_parquet(self):
         '''reads data frame from parquet, drops unneeded columns resets index'''
         df = pd.read_parquet(self.data_path)
+        #drop not needed columns, while checking if column exists for backward compatibility with different data versions
         drop_columns = [column for column in df.columns if column in ['level_0','index']]
         df.drop(columns=drop_columns)
+        #reset the index to 0 based serial
         df.reset_index(inplace=True)
         #row uniques test
         self.test_row_uniqueness(df)
