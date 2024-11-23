@@ -49,16 +49,23 @@ class CombinedDataLoader():
         else:
             return combined_data[combined_data.label.isin(self.in_scope_labels)]
     
-    def get_label_sample_df(self,label, sample_size):
-        df_label = self.df_filtered[self.df_filtered.label == label]
+    def get_label_sample_df(self,label, sample_size,df):
+        df_label = df[df.label == label]
         #return df_label.sample(sample_size).index
         if sample_size > len(df_label):
             return df_label
         return df_label.sample(sample_size)
-    def get_data_sampled_by_label(self, sample_size):
+    def get_data_sampled_by_label(self, sample_size, input_df=None):
+        #instantiate empy variable for dataframe
+        df=None
+        #if there is no input provided set to df_filtered
+        if input_df is None:
+            df = self.df_filtered
+        else: #otherwise set to the input
+            df = input_df
         label_sample_indexes = []
         for index, label in enumerate(self.in_scope_labels):
-            label_sample_df = self.get_label_sample_df(self.in_scope_labels[index], sample_size)
+            label_sample_df = self.get_label_sample_df(self.in_scope_labels[index], sample_size,df)
             #print("Generate ", len(label_sample_df), ' length sample')
             label_sample_indexes.append(label_sample_df)
         sampled_df = pd.concat(label_sample_indexes)
