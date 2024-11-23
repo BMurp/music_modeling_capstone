@@ -15,9 +15,10 @@ class CombinedDataLoader():
         df:  The unioned result of common columns of fma and gtzan datasources  
     
     '''
-    def __init__(self, fma_audio_size = 'small'):
+    def __init__(self, fma_audio_size = 'small', in_scope_labels=None):
         self.fma = FreeMusicArchive(fma_audio_size)
         self.gtzan = GTZAN()
+        self.in_scope_labels = in_scope_labels
         self.df = self.get_combined_df()
         self.df_files_available = self.df[self.df.file_available ==1]
         self.df_genres_available = self.df[self.df.label.isnull() ==False]
@@ -36,12 +37,32 @@ class CombinedDataLoader():
         this second part ads the file_avalable column which can be used to filter to metadata rows
         where files are available 
         '''
-        return pd.merge(
+        
+        combined_data = pd.merge(
                     pd.concat([data.get_file_meta() for data in [self.fma,self.gtzan]]),
                     pd.concat([data.get_track_ids_from_files() for data in [self.fma,self.gtzan]]),
                     how= 'left',                 
                     on= 'track_id'                
                 )
+        if self.in_scope_labels is None:
+            return combined_data
+        else:
+            return combined_data[combined_data.label.isin(self.in_scope_labels)]
+    
+    def get_label_sample_df(self,label, sample_size):
+        df_label = self.df_filtered[self.df_filtered.label == label]
+        #return df_label.sample(sample_size).index
+        if sample_size > len(df_label):
+            return df_label
+        return df_label.sample(sample_size)
+    def get_data_sampled_by_label(self, sample_size):
+        label_sample_indexes = []
+        for index, label in enumerate(self.in_scope_labels):
+            label_sample_df = self.get_label_sample_df(self.in_scope_labels[index], sample_size)
+            #print("Generate ", len(label_sample_df), ' length sample')
+            label_sample_indexes.append(label_sample_df)
+        sampled_df = pd.concat(label_sample_indexes)
+        return sampled_df
 
     
     
