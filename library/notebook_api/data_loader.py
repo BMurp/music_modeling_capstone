@@ -132,8 +132,8 @@ class ModelDataLoader():
         for index, feature in enumerate(self.feature_names):
             self.df[feature] = self.df.features.map(lambda features: features[index] if features is not None else None)
 
-    def get_mfcc(self):
-        npy_path = self.data_path + '_mfcc/*npy'
+    def get_ndarray_from_numpy_files(self,append_to_datapath):
+        npy_path = self.data_path + append_to_datapath
         files = glob.glob(npy_path)
         mfcc_array = []
         for file in files:
@@ -141,7 +141,13 @@ class ModelDataLoader():
         #mfcc_array
         combined_array = np.concatenate(mfcc_array, axis=0)
 
-        return combined_array
+        return combined_array    
+    def get_mfcc(self):
+        return self.get_ndarray_from_numpy_files('_mfcc/*npy')
+    def get_log_melspectrogram(self):
+        return self.get_ndarray_from_numpy_files('_log_melspectrogram/*npy')
+      
+    
 
 
 
