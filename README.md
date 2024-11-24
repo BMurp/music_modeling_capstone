@@ -1,7 +1,9 @@
 # Good Vibrations
-This is the working repository for siads 699 capstone project. This is in the development phase now. The project seeks to define the foundational elements for a product 
+This is the working repository for siads 699 capstone project. This is in the development phase now. The project seeks to define the foundational elements for a product geared at helping music enthusiasts organize their file based music collections. 
 
-# Setup Developement Envirionment
+Ths project includes an an end-to-end machine learning pipeline including feature extraction from audio files, an in-depth exploration of music genre classification models, as well as an unsupervised learning component geared at defining custom thematic groupings based on the sonic qualities of the music files. 
+
+## Setup Developement Envirionment
 1. Install UV following the steps here: https://github.com/astral-sh/uv . This is used for managing python, dependencies, virtual environments, and ipython kernels.
 2. Make sure uv is avalable by typing `uv` command in terminal 
 3. use terminal to navigate to your chosen local directory for the project 
@@ -12,7 +14,7 @@ This is the working repository for siads 699 capstone project. This is in the de
 8. Create the virutal environment  `uv env`
 9. For Jupiter notebooks, I've tested using Visual Studio Code.  One of the dependencies is iPython, with this the virtual enviroment can be used as a Kernel in visual studio.  For this create a .ipynb file, select uv virtual environment as kernel.  It should be called `.vnv (Python 3.10.5)`.   You can also take a different path like jupyter lab: https://docs.astral.sh/uv/guides/integration/jupyter/#using-jupyter-within-a-project
 
-# Development Workflow 
+## Development Workflow 
 A Continuous Integration workflow featuring relatively frequent branches and pull request is proposed so as to all be able to commit our own work while getting a chance to review and build off eachothers work. 
 
 1. create a branch: https://www.git-tower.com/learn/git/faq/create-branch
@@ -25,12 +27,12 @@ A Continuous Integration workflow featuring relatively frequent branches and pul
 8. share pull request link in chat
 9. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
 
-# About the Data
-## Data Storage Strategy
+## About the Data
+### Data Storage Strategy
 data is stored and distributed using G-Drive to avoid limitations of github.   There is a "project_data_folder" on UMichigan's g-drive storage [here](https://drive.google.com/drive/u/0/folders/1iEgWbgOzuWd41frPpWAAUADBUJnJGC0p), and the expectation is this folder and it's structure is replicated locally within `music_modeling_capstone/project_data_folder`. This folder has been added to gitignore to avoid tracking history here. 
 
-## Source Data Descriptions
-### Free Music Archive
+### Source Data Descriptions
+#### Free Music Archive
 Free Music Archive (FMA) allows for free to use music. For more on this their site here [here](https://freemusicarchive.org/)
 
 For our project we accessed music original sourced from FMA through a publically  available github project: https://github.com/mdeff/fma . The author of this product built an integration with FMA's API and pre-downloaded 100 thousand tracks along with their associtaed metadata. Metadata can be downloaded [here](https://os.unil.cloud.switch.ch/fma/fma_metadata.zip), and is also in our `/project_data_folder/free_music_archive/fma_metdata` . 
@@ -44,11 +46,11 @@ The music files themselves are available in mp3 form for download, and there are
 
 For our project, we started designing with fma_small, and then eventually incorporated fma_large.  fma_small is available in the project's g-drive, but fma_large is not given it's size.  It is still hosted and available to download from the github project mentioned above. 
 
-### GTZAN Dataset - Music Genre Classification
+#### GTZAN Dataset - Music Genre Classification
 GTZAN is our second music source for the project, and more details and dowloads can be found [here](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification)
 This data set is also available in g-drive for the project here `/project_data_folder/gtzan_dataset`
 
-## Feature Extraction Pipeline 
+### Feature Extraction Pipeline 
 This project introduces a framework for loading and unifying the metadata from the source datasets, extracting numerious features from the associated mp3 files, and writing out datasets of features and corresponding lables to use in modeling and analysis. 
 
 the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
