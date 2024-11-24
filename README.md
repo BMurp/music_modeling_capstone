@@ -1,4 +1,4 @@
-# Good Vibrations
+# 'Good Vibrations' Music Modeling Project 
 This is the working repository for siads 699 capstone project. This is in the development phase now. The project seeks to define the foundational elements for a product geared at helping music enthusiasts organize their file based music collections. 
 
 Ths project includes an an end-to-end machine learning pipeline including feature extraction from audio files, an in-depth exploration of music genre classification models, as well as an unsupervised learning component geared at defining custom thematic groupings based on the sonic qualities of the music files. 
