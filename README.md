@@ -1,5 +1,5 @@
-# music_modeling_capstone
-This is the working repository for siads 699 capstone project. This is in the defintion phase now. As project is further defined we can add more details as to the project scope.
+# Good Vibrations
+This is the working repository for siads 699 capstone project. This is in the development phase now. The project seeks to define the foundational elements for a product 
 
 # Setup Developement Envirionment
 1. Install UV following the steps here: https://github.com/astral-sh/uv . This is used for managing python, dependencies, virtual environments, and ipython kernels.
@@ -11,24 +11,6 @@ This is the working repository for siads 699 capstone project. This is in the de
 7. Install project dependencies: `uv sync`
 8. Create the virutal environment  `uv env`
 9. For Jupiter notebooks, I've tested using Visual Studio Code.  One of the dependencies is iPython, with this the virtual enviroment can be used as a Kernel in visual studio.  For this create a .ipynb file, select uv virtual environment as kernel.  It should be called `.vnv (Python 3.10.5)`.   You can also take a different path like jupyter lab: https://docs.astral.sh/uv/guides/integration/jupyter/#using-jupyter-within-a-project
-
-# Managing Data
-data is stored and distributed using G-Drive.  There is a "project_data_folder" on g-drive, and the expectation is this folder and it's structure is replicated locally within `music_modeling_capstone/project_data_folder`.  This folder has been added to gitignore to avoid tracking history here 
-
-For intial setup
-1. Go to the project_data_source folder here: https://drive.google.com/drive/u/1/folders/1iEgWbgOzuWd41frPpWAAUADBUJnJGC0p
-2. Download contents of folder and put in `music_modeling_capstone/project_data_folder`, while ensuring your local copy is the same as g-drive copy including folder names and structure. 
-3. Data updates can be communicated in PRs to facilitate a manual process of retrieving data updates along with merging code updates. 
-
-Alternate approach is to download data directly from source and manually compile directory
-Ref: https://github.com/mdeff/fma
-- fma_metadata: https://os.unil.cloud.switch.ch/fma/fma_metadata.zip
-- fma_small.zip: https://os.unil.cloud.switch.ch/fma/fma_small.zip
-
-
-For Free Music Archive Data
-For utilizing the pre-pepped data from here: https://nbviewer.org/github/mdeff/fma/blob/outputs/usage.ipynb 
-the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
 
 # Development Workflow 
 A Continuous Integration workflow featuring relatively frequent branches and pull request is proposed so as to all be able to commit our own work while getting a chance to review and build off eachothers work. 
@@ -42,3 +24,35 @@ A Continuous Integration workflow featuring relatively frequent branches and pul
 7. New dependencies can be added with `uv add <libraryname>`, the uv related files such as uv.lock and pyproject.toml will then be updated, these changes should be committed to the branch. 
 8. share pull request link in chat
 9. To discuss workflows on reviews/ approvals -- if work is not conflicting with others probably fine to merge,  if there are conflicts, should discuss 
+
+# About the Data
+## Data Storage Strategy
+data is stored and distributed using G-Drive to avoid limitations of github.   There is a "project_data_folder" on UMichigan's g-drive storage [here](https://drive.google.com/drive/u/0/folders/1iEgWbgOzuWd41frPpWAAUADBUJnJGC0p), and the expectation is this folder and it's structure is replicated locally within `music_modeling_capstone/project_data_folder`. This folder has been added to gitignore to avoid tracking history here. 
+
+## Source Data Descriptions
+### Free Music Archive
+Free Music Archive (FMA) allows for free to use music. For more on this their site here [here](https://freemusicarchive.org/)
+
+For our project we accessed music original sourced from FMA through a publically  available github project: https://github.com/mdeff/fma . The author of this product built an integration with FMA's API and pre-downloaded 100 thousand tracks along with their associtaed metadata. Metadata can be downloaded [here](https://os.unil.cloud.switch.ch/fma/fma_metadata.zip), and is also in our `/project_data_folder/free_music_archive/fma_metdata` . 
+
+The music files themselves are available in mp3 form for download, and there are 3 sizes to pick from, the descriptions of each size are copied below for reference 
+
+- fma_small.zip: 8,000 tracks of 30s, 8 balanced genres (GTZAN-like) (7.2 GiB)
+- fma_medium.zip: 25,000 tracks of 30s, 16 unbalanced genres (22 GiB)
+- fma_large.zip: 106,574 tracks of 30s, 161 unbalanced genres (93 GiB)
+- fma_full.zip: 106,574 untrimmed tracks, 161 unbalanced genres (879 GiB)
+
+For our project, we started designing with fma_small, and then eventually incorporated fma_large.  fma_small is available in the project's g-drive, but fma_large is not given it's size.  It is still hosted and available to download from the github project mentioned above. 
+
+### GTZAN Dataset - Music Genre Classification
+GTZAN is our second music source for the project, and more details and dowloads can be found [here](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification)
+This data set is also available in g-drive for the project here `/project_data_folder/gtzan_dataset`
+
+## Feature Extraction Pipeline 
+This project introduces a framework for loading and unifying the metadata from the source datasets, extracting numerious features from the associated mp3 files, and writing out datasets of features and corresponding lables to use in modeling and analysis. 
+
+the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
+
+
+
+

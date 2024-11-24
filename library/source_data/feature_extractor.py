@@ -20,7 +20,10 @@ class AudioFeatureExtractor():
         df : current state of the data frame 
      
     '''
-    def __init__(self,source_data): 
+    def __init__(self,source_data,sample_rate = None, start_sample=0, end_sample=None):
+        self.sample_rate = sample_rate
+        self.start_sample = start_sample
+        self.end_sample = end_sample
         self.df = source_data.copy()
         return
     
@@ -31,17 +34,17 @@ class AudioFeatureExtractor():
         self.add_audio_data_to_df()
         self.add_numerical_features_to_df()
         self.add_mfcc_to_df()
+        self.add_log_melspectrogram_to_df()
         self.save_results(version, batch, thread)
 
 
     def logger_function(self,thread, start_record, end_record):
         print(f"starting thread {thread} for data between index {start_record} and {end_record}")
     
-    
 
     
     def add_audio_data_to_df(self,sr=None,start_sample=0,end_sample=None):
-        self.df['audio_and_sampling_rate'] = self.df['audio_path'].apply(self.get_audio_and_sampling_rate, args=(sr,start_sample,end_sample))
+        self.df['audio_and_sampling_rate'] = self.df['audio_path'].apply(self.get_audio_and_sampling_rate)
         self.df['audio'] = self.df['audio_and_sampling_rate'].apply(lambda data: data[0] if data is not None else None)
         self.df['sampling_rate'] = self.df['audio_and_sampling_rate'].apply(lambda data: data[1] if data is not None else None)
         return
@@ -58,17 +61,17 @@ class AudioFeatureExtractor():
         self.df['log_melspectrogram'] = self.df['audio_and_sampling_rate'].apply(self.get_log_melspectrogram)
         return
     
-    def get_audio_and_sampling_rate(self,file_name,sr=None,start_sample=0, end_sample=None):
+    def get_audio_and_sampling_rate(self,file_name):
         try:
-            y, sr = librosa.load(PROJECT_ABSOLUTE_PATH+file_name, sr=sr)
+            y, sr = librosa.load(PROJECT_ABSOLUTE_PATH+file_name)
         except:
             print('failure in librosa.load')
             return None
 
-        if end_sample is None:
+        if self.end_sample is None:
             return y,sr
         else:
-            return y[start_sample:end_sample], sr
+            return y[self.start_sample:self.end_sample], sr
     
     def get_mfcc(self, audio_and_sampling_rate):
         if audio_and_sampling_rate is None:
@@ -183,7 +186,6 @@ class AudioFeatureExtractor():
          version_file_location = f'{MODEL_INPUT_DATA_PATH}model_input_{version}'
          
 
-
          if thread is None:
             to_save.to_parquet(version_file_location,index=True)
          #When running in parallel processor mode write files within a versioned path with batch and thread in filename
@@ -195,7 +197,9 @@ class AudioFeatureExtractor():
             thread_string = '{:03d}'.format(thread)
             os.makedirs(f"{version_file_location}_mfcc/", exist_ok=True) 
             np.save(f"{version_file_location}_mfcc/{batch_string}_{thread_string}.npy", np.array(to_save['mfcc']))
-            to_save.drop(columns=['mfcc']).to_parquet(f"{version_file_location}/{batch_string}_{thread_string}",index=True)
+            os.makedirs(f"{version_file_location}_log_melspectrogram/", exist_ok=True) 
+            np.save(f"{version_file_location}_log_melspectrogram/{batch_string}_{thread_string}.npy", np.array(to_save['log_melspectrogram']))
+            to_save.drop(columns=['mfcc','log_melspectrogram']).to_parquet(f"{version_file_location}/{batch_string}_{thread_string}",index=True)
     
     def explore_features(self, limit=5):
         df = self.df.head(limit)
