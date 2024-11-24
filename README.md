@@ -3,7 +3,7 @@ This is the working repository for siads 699 capstone project. This is in the de
 
 Ths project includes an an end-to-end machine learning pipeline including feature extraction from audio files, an in-depth exploration of music genre classification models, as well as an unsupervised learning component geared at defining custom thematic groupings based on the sonic qualities of the music files. 
 
-## Setup Developement Envirionment
+## Setup Development Envirionment
 1. Install UV following the steps here: https://github.com/astral-sh/uv . This is used for managing python, dependencies, virtual environments, and ipython kernels.
 2. Make sure uv is avalable by typing `uv` command in terminal 
 3. use terminal to navigate to your chosen local directory for the project 
@@ -53,8 +53,16 @@ This data set is also available in g-drive for the project here `/project_data_f
 ### Feature Extraction Pipeline 
 This project introduces a framework for loading and unifying the metadata from the source datasets, extracting numerious features from the associated mp3 files, and writing out datasets of features and corresponding lables to use in modeling and analysis. 
 
-the utils.py file was copied to  `fma_modules` directory.  Currently only the load function is used so all others are commented out. `test_notebook.ipynb` has an example of loading this data. 
+For Free Music archive data, select functions from  `utils.py` file used for interacting with the source were copied from the source [here](https://github.com/mdeff/fma/blob/master/utils.py) to the projects `fma_modules` directory. 
 
+[create_modeling_data.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/data_creation/create_modeling_data.ipynb) is the notebook that has been used to generate model input data for various scenarios. 
 
+## Modeling and Analysis 
+The modeling and analysis is ongoing and currently across several notebok in the `/notebooks/exploratory` project folder.
 
+Some good representative notebooks are mentioned and linked below:
 
+- [supervised_learning_explainable_models.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/supervised_learning_explainable_models.ipynb)
+- [CNN_LSTM_MFCC_Classification.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/CNN_LSTM_MFCC_Classification.ipynb)
+- [pca_k_means_clustering.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/pca_k_means_clustering.ipynb)
+- [audio_explorer_design.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/audio_explorer_design.ipynb)
