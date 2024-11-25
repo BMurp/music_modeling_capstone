@@ -11,12 +11,15 @@ class AudioParallelProcessor():
     and puts result to parque files for each thread. 
     
     '''
-    def __init__(self, source_data, version = '003', batch=1, threads = 5):
+    def __init__(self, source_data, version = '003', batch=1, threads = 5,sample_rate=None, start_sample=0, end_sample=None):
         self.version = version 
         self.batch = batch
         self.threads = threads
         self.source_data = source_data
         self.input_length = len(self.source_data)
+        self.sample_rate = sample_rate
+        self.start_sample = start_sample
+        self.end_sample = end_sample
         self.start_thread_size = int(self.input_length/self.threads)
         self.extract_processes ={}
 
@@ -52,7 +55,7 @@ class AudioParallelProcessor():
             if end_record == self.input_length - self.input_length%self.threads:
                 end_record += self.input_length%self.threads
             print(f"populate thread process for thread {thread} " ,start_record, end_record, len(self.source_data.iloc[start_record:end_record]))
-            extract_thread_extractors[thread] = AudioFeatureExtractor(self.source_data.iloc[start_record:end_record])
+            extract_thread_extractors[thread] = AudioFeatureExtractor(self.source_data.iloc[start_record:end_record],self.sample_rate, self.start_sample, self.end_sample)
             
             #for debugging of just printing out the function calls arguments 
             #self.extract_processes[thread] = Process(target=extract_thread_extractors[thread].logger_function,args=(thread, start_record, end_record))

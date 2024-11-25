@@ -15,9 +15,10 @@ class CombinedDataLoader():
         df:  The unioned result of common columns of fma and gtzan datasources  
     
     '''
-    def __init__(self, fma_audio_size = 'small'):
+    def __init__(self, fma_audio_size = 'small', in_scope_labels=None):
         self.fma = FreeMusicArchive(fma_audio_size)
         self.gtzan = GTZAN()
+        self.in_scope_labels = in_scope_labels
         self.df = self.get_combined_df()
         self.df_files_available = self.df[self.df.file_available ==1]
         self.df_genres_available = self.df[self.df.label.isnull() ==False]
@@ -36,12 +37,39 @@ class CombinedDataLoader():
         this second part ads the file_avalable column which can be used to filter to metadata rows
         where files are available 
         '''
-        return pd.merge(
+        
+        combined_data = pd.merge(
                     pd.concat([data.get_file_meta() for data in [self.fma,self.gtzan]]),
                     pd.concat([data.get_track_ids_from_files() for data in [self.fma,self.gtzan]]),
                     how= 'left',                 
                     on= 'track_id'                
                 )
+        if self.in_scope_labels is None:
+            return combined_data
+        else:
+            return combined_data[combined_data.label.isin(self.in_scope_labels)]
+    
+    def get_label_sample_df(self,label, sample_size,df):
+        df_label = df[df.label == label]
+        #return df_label.sample(sample_size).index
+        if sample_size > len(df_label):
+            return df_label
+        return df_label.sample(sample_size)
+    def get_data_sampled_by_label(self, sample_size, input_df=None):
+        #instantiate empy variable for dataframe
+        df=None
+        #if there is no input provided set to df_filtered
+        if input_df is None:
+            df = self.df_filtered
+        else: #otherwise set to the input
+            df = input_df
+        label_sample_indexes = []
+        for index, label in enumerate(self.in_scope_labels):
+            label_sample_df = self.get_label_sample_df(self.in_scope_labels[index], sample_size,df)
+            #print("Generate ", len(label_sample_df), ' length sample')
+            label_sample_indexes.append(label_sample_df)
+        sampled_df = pd.concat(label_sample_indexes)
+        return sampled_df
 
     
     
@@ -91,8 +119,10 @@ class ModelDataLoader():
     def get_df_from_parquet(self):
         '''reads data frame from parquet, drops unneeded columns resets index'''
         df = pd.read_parquet(self.data_path)
+        #drop not needed columns, while checking if column exists for backward compatibility with different data versions
         drop_columns = [column for column in df.columns if column in ['level_0','index']]
         df.drop(columns=drop_columns)
+        #reset the index to 0 based serial
         df.reset_index(inplace=True)
         #row uniques test
         self.test_row_uniqueness(df)
@@ -102,8 +132,8 @@ class ModelDataLoader():
         for index, feature in enumerate(self.feature_names):
             self.df[feature] = self.df.features.map(lambda features: features[index] if features is not None else None)
 
-    def get_mfcc(self):
-        npy_path = self.data_path + '_mfcc/*npy'
+    def get_ndarray_from_numpy_files(self,append_to_datapath):
+        npy_path = self.data_path + append_to_datapath
         files = glob.glob(npy_path)
         mfcc_array = []
         for file in files:
@@ -111,7 +141,13 @@ class ModelDataLoader():
         #mfcc_array
         combined_array = np.concatenate(mfcc_array, axis=0)
 
-        return combined_array
+        return combined_array    
+    def get_mfcc(self):
+        return self.get_ndarray_from_numpy_files('_mfcc/*npy')
+    def get_log_melspectrogram(self):
+        return self.get_ndarray_from_numpy_files('_log_melspectrogram/*npy')
+      
+    
 
 
 
