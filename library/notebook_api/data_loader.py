@@ -135,6 +135,8 @@ class ModelDataLoader():
     def get_ndarray_from_numpy_files(self,append_to_datapath):
         npy_path = self.data_path + append_to_datapath
         files = glob.glob(npy_path)
+        #sort the files by file name
+        files.sort()
         mfcc_array = []
         for file in files:
             mfcc_array.append(np.load(file, allow_pickle=True))
