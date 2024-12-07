@@ -16,6 +16,7 @@ dependencies = [
     "pyarrow>=17.0.0",
     "pygame>=2.6.1",
     "seaborn>=0.13.2",
+    "squarify>=0.4.4",
     "tensorflow==2.15.0",
     "tqdm>=4.67.0",
     "vegafusion-python-embed>=1.6.9",

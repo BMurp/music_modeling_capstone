@@ -28,3 +28,6 @@ GTZAN_AUDIO_PATH = DATA_SOURCE_FOLDER+"gtzan_dataset/Data/genres_original"
 #Model Input Data 
 MODEL_INPUT_DATA_FOLDER = 'model_input_data/'
 MODEL_INPUT_DATA_PATH = DATA_SOURCE_PATH + MODEL_INPUT_DATA_FOLDER
+
+#Saved Model Path 
+SAVED_MODEL_PATH = PROJECT_ABSOLUTE_PATH + '/saved_models/'

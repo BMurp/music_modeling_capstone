@@ -1270,6 +1270,7 @@ dependencies = [
     { name = "pyarrow" },
     { name = "pygame" },
     { name = "seaborn" },
+    { name = "squarify" },
     { name = "tensorflow" },
     { name = "tqdm" },
     { name = "vegafusion" },
@@ -1295,6 +1296,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=17.0.0" },
     { name = "pygame", specifier = ">=2.6.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "squarify", specifier = ">=0.4.4" },
     { name = "tensorflow", specifier = "==2.15.0" },
     { name = "tqdm", specifier = ">=4.67.0" },
     { name = "vegafusion", specifier = ">=1.6.9" },
@@ -2232,6 +2234,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a5/4a/6a11d62cfd6383c88f4918bdc5191d9c437f649c9101ceb5eec7e2837f0b/soxr-0.5.0.post1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:94de2812368e98cb42b4eaeddf8ee1657ecc19bd053f8e67b9b5aa12a3592012", size = 221450 },
     { url = "https://files.pythonhosted.org/packages/25/d1/83a66e795381ddfc5c3ebf34cc0ac68735c7c459ed1fe65a2193a52c57b1/soxr-0.5.0.post1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9c8e9c980637e03d3f345a4fd81d56477a58c294fb26205fa121bc4eb23d9d01", size = 253025 },
     { url = "https://files.pythonhosted.org/packages/cd/2e/1fbad5cc8c49c45a0b94221d16445792f55b63fe4f6d3885db960d92892c/soxr-0.5.0.post1-cp39-cp39-win_amd64.whl", hash = "sha256:7e71b0b0db450f36de70f1047505231db77a713f8c47df9342582ae8a4b828f2", size = 167292 },
+]
+
+[[package]]
+name = "squarify"
+version = "0.4.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/01/1753243870dff9fa786c9712fdc8dffb56f356c46c77d7468cb12f6d8398/squarify-0.4.4.tar.gz", hash = "sha256:b8a110c8dc5f1cd1402ca12d79764a081e90bfc445346cfa166df929753ecb46", size = 5514 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/3c/eedbe9fb07cc20fd9a8423da14b03bc270d0570b3ba9174a4497156a2152/squarify-0.4.4-py3-none-any.whl", hash = "sha256:d7597724e29d48aa14fd2f551060d6b09e1f0a67e4cd3ea329fe03b4c9a56f11", size = 4082 },
 ]
 
 [[package]]
