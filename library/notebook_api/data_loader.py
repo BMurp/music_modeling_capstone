@@ -149,13 +149,3 @@ class ModelDataLoader():
     def get_log_melspectrogram(self):
         return self.get_ndarray_from_numpy_files('_log_melspectrogram/*npy')
       
-    
-
-
-
-
-
-
-
-#For debug purposes
-#print(type(CombinedDataLoader()))

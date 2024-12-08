@@ -6,10 +6,7 @@ import os
 sys.path.insert(0, '../../')
 
 from configuration import PROJECT_ABSOLUTE_PATH,FMA_METADATA_PATH,FMA_SMALL_AUDIO_PATH, FMA_MEDIUM_AUDIO_PATH,FMA_LARGE_AUDIO_PATH,GTZAN_AUDIO_PATH,GTZAN_METADATA_PATH
-#print('datasource paths',sys.path)
 import fma_modules.utils as fma_utils
-
-
 
 class DataSource():
     '''Base class for datasource information
@@ -120,8 +117,6 @@ class FreeMusicArchive(DataSource):
         return file_name.split('.')[0]
 
 
-
-
 class GTZAN(DataSource):
     '''Specifics of GTZAN data source'''
 
@@ -152,6 +147,3 @@ class GTZAN(DataSource):
         return GTZAN_AUDIO_PATH
 
     
-
-
-#print(type(GTZAN()))

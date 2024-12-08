@@ -17,6 +17,9 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '006',vector_l
     most_common_size = 0 
     if version_string == '006':
         most_common_size = 1099
+    else:
+        most_common_size = 2582
+
     if vector_type == 'mfcc':
         print('Loading mfcc vectors')
         features = model_data_loader.get_mfcc()
@@ -35,8 +38,6 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '006',vector_l
 
     #filter based on features
     # currently filtered to just the most common shapes, as we'll need to normalize shapes prior to training 
-    #MFCC_LENGTH_CUTOFF = 2582
-    #MFCC_LENGTH_CUTOFF = 500
     MFCC_LENGTH_CUTOFF = vector_length
 
 
@@ -69,43 +70,20 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '006',vector_l
     in_scope_label_series = labels_series.iloc[in_scope_indexes]
     unique_label_names = in_scope_label_series.unique()
     unique_label_count = len(in_scope_label_series.unique())
-    '''
-    
-    label_to_int_map = {}
-    for index, label in enumerate(unique_label_names):
-        label_to_int_map[label] = index  
-
-
-    int_to_label_map = {v: k for k, v in label_to_int_map.items()}
-
-    #numerical_labels = labels_series.map(label_to_int_map)
-    numerical_labels = in_scope_label_series.map(label_to_int_map)
-    '''
+  
     label_encoder = LabelEncoder()
     numerical_labels = label_encoder.fit_transform(in_scope_label_series.values)
-
-
-    #encoded_labels = one_hot(indices = numerical_labels.values, depth = len(unique_label_names))
-
     encoded_labels = one_hot(indices = numerical_labels, depth = len(unique_label_names))
     
     print("Unique label count: ", unique_label_count)
     print("label data count " , len(encoded_labels))
-    '''
-    #truncate features to consistent length while reshaping 
-    reshaped_features = []
+  
     print("Truncate features to consistent length and reshape")
-    for feature in features[in_scope_indexes]:
-        mfcc = [] 
-        for vector in feature: 
-            mfcc.append(vector[0:MFCC_LENGTH_CUTOFF])
-            mfcc_reshaped = np.array(mfcc)
-        reshaped_features.append(mfcc_reshaped.reshape((MFCC_LENGTH_CUTOFF,vector_height,1)))
-    
-    '''
-    print("Truncate features to consistent length and reshape")
+    #from 1d to 3d 
     features_3d = np.stack(features[in_scope_indexes])
+    #clear memory
     features=None
+    #truncate to provided input size and reshape to add extra channel for CNN
     reshaped_features = features_3d[:,:,:MFCC_LENGTH_CUTOFF].reshape(features_3d.shape[0],MFCC_LENGTH_CUTOFF,vector_height,1)
     features_3d=None
     #clearning memory space, instantiate original feature array to None 

@@ -22,10 +22,7 @@ class AudioParallelProcessor():
         self.end_sample = end_sample
         self.start_thread_size = int(self.input_length/self.threads)
         self.extract_processes ={}
-
         return
-
-    
     def execute(self):
         '''execution of the processes by populating extract processes with a map of thread index to process
         and then running processes
@@ -40,7 +37,6 @@ class AudioParallelProcessor():
         #map of index number and the function to run 
         extract_thread_extractors = {}
         #map of index number and process to execture 
-        #extract_processes = {}
         #1 based indexes for the threads 
         thread_indexes = list(range(1,self.threads+1))
    
@@ -64,8 +60,6 @@ class AudioParallelProcessor():
             end_record += self.start_thread_size 
             
         return
-
-
     def run_processes(self):
         '''invoke start on each process and then join on each process
         this kicks off each process and then instructs python to wait to move forward until all are done
