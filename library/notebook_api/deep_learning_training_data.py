@@ -9,11 +9,14 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.layers import Normalization
 from tensorflow import one_hot
 
-def get_feature_vector_data(vector_type = 'mfcc',version_string = '005',vector_length = 1200, apply_normalization = False, apply_resampling=False):
+def get_feature_vector_data(vector_type = 'mfcc',version_string = '006',vector_length = 1000, apply_normalization = False, apply_resampling=False):
     model_data_loader = ModelDataLoader(version_string)
     model_data_loader_df = model_data_loader.df
     features = []
     vector_height = 0
+    most_common_size = 0 
+    if version_string == '006':
+        most_common_size = 1099
     if vector_type == 'mfcc':
         print('Loading mfcc vectors')
         features = model_data_loader.get_mfcc()
@@ -38,7 +41,7 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '005',vector_l
 
 
     #array of indexes matching a predicate 
-    in_scope_feature_indexes = np.where(np.array(feature_shapes) >= MFCC_LENGTH_CUTOFF)[0]
+    in_scope_feature_indexes = np.where(np.array(feature_shapes) == most_common_size)[0]
     print("normalized length: ",len(in_scope_feature_indexes))
 
     #filter based on labels
@@ -88,7 +91,7 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '005',vector_l
     
     print("Unique label count: ", unique_label_count)
     print("label data count " , len(encoded_labels))
-
+    '''
     #truncate features to consistent length while reshaping 
     reshaped_features = []
     print("Truncate features to consistent length and reshape")
@@ -99,6 +102,12 @@ def get_feature_vector_data(vector_type = 'mfcc',version_string = '005',vector_l
             mfcc_reshaped = np.array(mfcc)
         reshaped_features.append(mfcc_reshaped.reshape((MFCC_LENGTH_CUTOFF,vector_height,1)))
     
+    '''
+    print("Truncate features to consistent length and reshape")
+    features_3d = np.stack(features[in_scope_indexes])
+    features=None
+    reshaped_features = features_3d[:,:,:MFCC_LENGTH_CUTOFF].reshape(features_3d.shape[0],MFCC_LENGTH_CUTOFF,vector_height,1)
+    features_3d=None
     #clearning memory space, instantiate original feature array to None 
     features = None
     #generate train and test with stratification for equal label distribution across train and test 
