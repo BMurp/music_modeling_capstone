@@ -6,6 +6,11 @@ from configuration import SAVED_MODEL_PATH
 import numpy as np 
 from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
+import pandas as pd
+import altair as alt
+alt.data_transformers.enable("vegafusion")
+alt.renderers.enable('default')
+
 
 def plot_training_history(history):
     fig, axs = plt.subplots(2)
@@ -29,12 +34,13 @@ class ModelEvaluation():
         self.y_test = y_test 
         self.label_encoder = label_encoder      
         self.y_prediction = np.argmax(self.model.predict(x=X_test), axis=1)
-        self.evaluate()
+        #self.evaluate()
         return
     def load_model(self):
         return keras_saving.load_model(SAVED_MODEL_PATH+self.file_name)
     
     def evaluate(self):
+        print("Evaluating Model: ", self.name)
         self.display_accuracy_and_loss()
         _ = self.get_classification_report()
         self.display_confusion_matrix()
@@ -56,18 +62,19 @@ class ModelEvaluation():
         
         return y_test_
 
-    def get_classification_report(self):
+    def get_classification_report(self, print_report = True):
         self.classification_report = classification_report(self.get_flattened_y_test(), 
                                                           self.y_prediction,
                                                           target_names=self.label_encoder.classes_,
                                                           output_dict = True
                                                           )
-        print("\nClassification Report:")
-        print(classification_report(self.get_flattened_y_test(), 
-                                                          self.y_prediction,
-                                                          target_names=self.label_encoder.classes_
-                                        
-                                                          ))
+        if print_report:
+            print("\nClassification Report:")
+            print(classification_report(self.get_flattened_y_test(), 
+                                                            self.y_prediction,
+                                                            target_names=self.label_encoder.classes_
+                                            
+                                                            ))
         return self.classification_report
     
     def display_confusion_matrix(self):
@@ -81,4 +88,41 @@ class ModelEvaluation():
         plt.show()
         return
     
+
+class ModelEvaluationComparisons():
+    #for comparing multiple models
+    def __init__(self,model_evals):
+        self.model_evals = model_evals
+        self.metrics = ['precision', 'recall','f1-score']
+        self.genres = model_evals[0].label_encoder.classes_
+        self.comparison_dfs = self.get_model_evaluation_comparison_data()
+        return
+    def get_model_evaluation_comparison_data(self):
+        comparison_dfs = {}
+        for metric in self.metrics:
+            metric_model_array = []
+            for model in self.model_evals:
+                metric_model_array.append(pd.DataFrame(model.get_classification_report(print_report=False)).T[metric])
+
+            comparison_dfs[metric] = pd.concat(metric_model_array, axis=1)
+            comparison_dfs[metric].columns = [model.name for model in self.model_evals]
+            comparison_dfs[metric] = comparison_dfs[metric].T
+            comparison_dfs[metric].reset_index(inplace=True)
+        return comparison_dfs
+    def display_metric_comparison_chart(self,metric_name):
+        return alt.Chart(self.comparison_dfs[metric_name]).mark_bar().encode(
+                        x=alt.X('amount:Q', title=None),
+                        y=alt.Y('type:N', title=None),
+                        color=alt.Color('amount:Q', legend=None),
+                        column=alt.Column('index',
+                                        title=None)
+                        ).transform_fold(as_=['type', 'amount'],
+                                            fold=self.genres).properties(
+                                                width=100,
+                                                title=f'{metric_name} by Model')
+    
+    def display_metric_comparison_charts(self):
+        for metric in self.metrics:
+            self.display_metric_comparison_chart(metric)
+
  
