@@ -66,3 +66,5 @@ Some good representative notebooks are mentioned and linked below:
 - [CNN_LSTM_MFCC_Classification.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/CNN_LSTM_MFCC_Classification.ipynb)
 - [pca_k_means_clustering.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/pca_k_means_clustering.ipynb)
 - [audio_explorer_design.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/audio_explorer_design.ipynb)
+- [exploratory_label_and_feature_analysis_vF.ipynb] (https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/exploratory/exploratory_label_and_feature_analysis_vF.ipynb)
+  
