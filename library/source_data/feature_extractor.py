@@ -1,5 +1,3 @@
-#import sys
-#sys.path.insert(0, '../../')
 import librosa
 import librosa.display
 import IPython.display as ipd
@@ -37,11 +35,8 @@ class AudioFeatureExtractor():
         self.add_log_melspectrogram_to_df()
         self.save_results(version, batch, thread)
 
-
     def logger_function(self,thread, start_record, end_record):
         print(f"starting thread {thread} for data between index {start_record} and {end_record}")
-    
-
     
     def add_audio_data_to_df(self,sr=None,start_sample=0,end_sample=None):
         self.df['audio_and_sampling_rate'] = self.df['audio_path'].apply(self.get_audio_and_sampling_rate)
@@ -78,10 +73,7 @@ class AudioFeatureExtractor():
             return None
         y, sr = audio_and_sampling_rate[0],audio_and_sampling_rate[1]
         
-        #referencing the power_to_db approach from https://www.kaggle.com/code/nilshmeier/melspectrogram-based-cnn-classification'''
-        #mel spectrogram stub code
-        #mels = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=512)
-        #mels_db = librosa.power_to_db(S=mels, ref=1.0)
+        #referencing the power_to_db approach from https://www.kaggle.com/code/nilshmeier/melspectrogram-based-cnn-classification
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
         return mfcc
     
@@ -94,7 +86,6 @@ class AudioFeatureExtractor():
         log_S = librosa.power_to_db(S, ref=np.max)
         return log_S
 
-  
     def extract_numerical_features(self,audio_and_sampling_rate):
         try:
             if audio_and_sampling_rate is None:
@@ -139,7 +130,6 @@ class AudioFeatureExtractor():
             tempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr)[0]
             
             #Contrast 
-            
             contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
             contrast_mean = np.mean(contrast )
 
@@ -184,7 +174,6 @@ class AudioFeatureExtractor():
          to_save = to_save.drop(columns=['audio_and_sampling_rate','audio'])
 
          version_file_location = f'{MODEL_INPUT_DATA_PATH}model_input_{version}'
-         
 
          if thread is None:
             to_save.to_parquet(version_file_location,index=True)
@@ -217,22 +206,6 @@ class AudioFeatureExtractor():
             label_ = df['label'].iloc[row_num]
             print("Showing Track: ", track_id_, "label is: ", label_)
             audio_players.append(ipd.Audio(audio_, rate=sr_))
-            '''
-            librosa.display.waveshow(audio_, sr=sr_)
-            fig, ax = plt.subplots(nrows=2, sharex=True)
-            
-            img = librosa.display.specshow(log_s_,
-                                        x_axis='time', y_axis='mel', fmax=8000,
-                                        ax=ax[0])
-                    
-            fig.colorbar(img, ax=[ax[0]])
-           
-            ax[0].set(title='Mel Power spectrogram')
-            ax[0].label_outer()
-            img = librosa.display.specshow(mfccs_, x_axis='time', ax=ax[1])
-            fig.colorbar(img, ax=[ax[1]])
-            ax[1].set(title='MFCC')
-            '''
             librosa.display.waveshow(audio_, sr=sr_, ax=ax[i, 0])  # put wave in row i, column 0
             librosa.display.specshow(mfccs_, x_axis='time', ax=ax[i, 1]) # mfcc in row i, column 1
             librosa.display.specshow(log_s_, x_axis='time', y_axis='log', ax=ax[i, 2])  # spectrogram in row i, column 2
