@@ -63,9 +63,9 @@ The following is an itemization of featured notebooks
 - [01_exploratory_label_and_feature_analysis.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/01_exploratory_label_and_feature_analysis.ipynb)
 - [02_supervised_learning_explainable_models.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/02_supervised_learning_explainable_models.ipynb)
 - [03_deep_learning_model_training.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/03_deep_learning_model_training.ipynb)
-- [04_deep_learning_model_evaluation.ipynb] (https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/04_deep_learning_model_evaluation.ipynb)
-- [05_pca_kmeans_clustering.ipynb] (https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/05_pca_kmeans_clustering.ipynb)
-- [06_audio_player_demo.ipynb] (https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/06_audio_player_demo.ipynb)
+- [04_deep_learning_model_evaluation.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/04_deep_learning_model_evaluation.ipynb)
+- [05_pca_kmeans_clustering.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/05_pca_kmeans_clustering.ipynb)
+- [06_audio_player_demo.ipynb](https://github.com/BMurp/music_modeling_capstone/blob/main/notebooks/00_featured_notebooks/06_audio_player_demo.ipynb)
 
 ### Saved Keras Models
 The pre-trained models evaluated in the deep learning sections are included as .keras files in the `saved_models` directory of the project.  The deep learning evaluation notebook above loads those models from here and evaluates them using the test data. 
