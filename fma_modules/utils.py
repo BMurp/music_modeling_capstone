@@ -3,6 +3,22 @@
 import pandas as pd
 import os.path
 import ast
+'''
+#licenscing citation for this work 
+@inproceedings{fma_challenge,
+  title = {Learning to Recognize Musical Genre from Audio},
+  subtitle = {Challenge Overview},
+  author = {Defferrard, Micha\"el and Mohanty, Sharada P. and Carroll, Sean F. and Salath\'e, Marcel},
+  booktitle = {The 2018 Web Conference Companion},
+  year = {2018},
+  publisher = {ACM Press},
+  isbn = {9781450356404},
+  doi = {10.1145/3184558.3192310},
+  archiveprefix = {arXiv},
+  eprint = {1803.05337},
+  url = {https://arxiv.org/abs/1803.05337},
+}
+'''
 
 def load(filepath):
 

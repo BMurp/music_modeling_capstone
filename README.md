@@ -36,9 +36,29 @@ The music files themselves are available in mp3 form for download, and there are
 
 For our project, we started designing with fma_small, and then eventually incorporated fma_large.  fma_small is available in the project's g-drive, but fma_large is not given it's size.  It is still hosted and available to download from the github project mentioned above. 
 
+Code from this repo is released under the [MIT License](https://github.com/mdeff/fma/blob/master/LICENSE.txt).  Metadata is licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0)
+
+Citation: 
+`
+@inproceedings{fma_dataset,
+  title = {{FMA}: A Dataset for Music Analysis},
+  author = {Defferrard, Micha\"el and Benzi, Kirell and Vandergheynst, Pierre and Bresson, Xavier},
+  booktitle = {18th International Society for Music Information Retrieval Conference (ISMIR)},
+  year = {2017},
+  archiveprefix = {arXiv},
+  eprint = {1612.01840},
+  url = {https://arxiv.org/abs/1612.01840},
+}
+`
+We do not hold the copyright on the audio and distribute it under the license chosen by the artist.
+
 #### GTZAN Dataset - Music Genre Classification
 GTZAN is our second music source for the project, and more details and dowloads can be found [here](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification)
 This data set is also available in g-drive for the project here `/project_data_folder/gtzan_dataset`
+
+GTZAN is a widely distributed free to use dataset used across many machine learning research papers and Kaggle projects. It is not approved for public distribution for commercial means as we were ubable to locate specific copy right information. 
+
+This dataset was used for the well known paper in genre classification " Musical genre classification of audio signals " by G. Tzanetakis and P. Cook in IEEE Transactions on Audio and Speech Processing 2002.
 
 ### Modeling Input Data And Feature Extraction Pipeline
 This project introduces a framework for loading and unifying the metadata from the source datasets, extracting numerious features from the associated mp3 files, and writing out datasets of features and corresponding lables to use in modeling and analysis. 
